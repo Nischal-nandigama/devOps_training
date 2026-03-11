@@ -18,7 +18,7 @@ public class Main {
 
         server.createContext("/save", exchange -> {
 
-            String message = "Hello from Docker Multi Container App";
+            String message = "Sample Multi Container App";
 
             try {
                 Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
