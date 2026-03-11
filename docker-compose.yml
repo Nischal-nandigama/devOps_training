@@ -1,17 +1,14 @@
-version: '3.8'
-
 services:
 
   frontend:
-    image: nginx:latest
+    image: nginx
     ports:
       - "8080:80"
     volumes:
       - ./index.html:/usr/share/nginx/html/index.html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - backend
-    networks:
-      - app-network
 
   backend:
     build:
@@ -19,13 +16,8 @@ services:
       dockerfile: docker/Dockerfile
     ports:
       - "3000:3000"
-    environment:
-      DB_HOST: database
     depends_on:
       - database
-      - cache
-    networks:
-      - app-network
 
   database:
     image: postgres:15-alpine
@@ -35,17 +27,6 @@ services:
       POSTGRES_PASSWORD: secret123
     volumes:
       - postgres-data:/var/lib/postgresql/data
-    networks:
-      - app-network
-
-  cache:
-    image: redis:7-alpine
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
 
 volumes:
   postgres-data:

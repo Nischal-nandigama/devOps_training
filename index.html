@@ -1,27 +1,63 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Docker Multi Container App</title>
-</head>
 
 <body>
 
-<h2>Docker Compose Demo</h2>
+<h2>User Management</h2>
 
-<button onclick="save()">Save Message</button>
+<input id="name" placeholder="Name">
+<input id="email" placeholder="Email">
 
-<p id="result"></p>
+<button onclick="add()">Add User</button>
+<button onclick="load()">Load Users</button>
+
+<ul id="list"></ul>
 
 <script>
-function save(){
 
-fetch("http://localhost:3000/save")
-.then(res => res.text())
-.then(data => {
-document.getElementById("result").innerText = data;
+function add(){
+
+let name=document.getElementById("name").value
+let email=document.getElementById("email").value
+
+fetch("/api/add?name="+name+"&email="+email)
+.then(res=>res.text())
+.then(alert)
+
+}
+
+function load(){
+
+fetch("/api/users")
+.then(res=>res.json())
+.then(data=>{
+
+let list=document.getElementById("list")
+list.innerHTML=""
+
+data.forEach(u=>{
+
+let li=document.createElement("li")
+
+li.innerHTML=
+u.name+" ("+u.email+") "+
+"<button onclick='del("+u.id+")'>Delete</button>"
+
+list.appendChild(li)
+
+})
+
 })
 
 }
+
+function del(id){
+
+fetch("/api/delete?id="+id)
+.then(load)
+
+}
+
 </script>
 
 </body>

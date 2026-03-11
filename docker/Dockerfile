@@ -4,8 +4,8 @@ WORKDIR /app
 
 COPY backend /app
 
-RUN mvn package
+RUN mvn clean package
 
 EXPOSE 3000
 
-CMD ["java","-cp","target/backend-1.0.jar","Main"]
+CMD ["java","-jar","target/userapp-1.0-jar-with-dependencies.jar"]
