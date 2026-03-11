@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Docker Multi Container App</title>
+</head>
+
+<body>
+
+<h2>Docker Compose Demo</h2>
+
+<button onclick="save()">Save Message</button>
+
+<p id="result"></p>
+
+<script>
+function save(){
+
+fetch("http://localhost:3000/save")
+.then(res => res.text())
+.then(data => {
+document.getElementById("result").innerText = data;
+})
+
+}
+</script>
+
+</body>
+</html>
